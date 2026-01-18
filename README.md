@@ -1,7 +1,10 @@
-This repository will include Church sermon summaries. 
+# Overview
 
-The summaries are created by ChatGPT by analyzing an uploaded trasncript of the sermon.
+A collection of sermon notes generated from uploaded sermon transcripts.
 
-- [2025.12.07 - Haven Church - John Scott](./2025.12.07%20-%20Haven%20Church%20-%20John%20Scott.md)
-- [2026.01.11 – Haven Church – Nick Mudrezow](./2026.01.11%20–%20Haven%20Church%20–%20Nick%20Mudrezow.md)
-- [2026.01.18 - Haven Church - Nick Mudrezow](./2026.01.18%20-%20Haven%20Church%20-%20Nick%20Mudrezow.md)
+Drafts are produced with ChatGPT and formatted for clarity in Markdown. Please treat them as summaries of the message, not an official transcript.
+
+# Sermon Notes
+- [2025.12.07 - Haven Church - John Scott](./sermon-notes/2025.12.07-Haven-Church-John-Scott.md)
+- [2026.01.11 – Haven Church – Nick Mudrezow](./sermon-notes/2026.01.11-Haven-Church-Nick-Mudrezow.md)
+- [2026.01.18 - Haven Church - Nick Mudrezow](./sermon-notes/2026.01.18-Haven-Church-Nick%20Mudrezow.md)
