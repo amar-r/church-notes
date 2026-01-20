@@ -1,0 +1,58 @@
+name: Update README TOC
+
+# Allows manual triggering from GitHub Actions
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-toc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Authenticate GitHub CLI
+        run: gh auth setup-git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update README TOC with PDF releases
+        run: |
+          # Fetch release tags
+          releases=$(gh release list --limit 100 --json name --jq '.[].name')
+
+          if [ -z "$releases" ]; then
+            echo "No releases found. Skipping TOC update."
+            exit 0
+          fi
+
+          # Generate temporary TOC
+          echo "## Releases" > toc.md
+          for tag in $releases; do
+            echo "- [$tag](https://github.com/${GITHUB_REPOSITORY}/releases/download/$tag/$tag.pdf)" >> toc.md
+          done
+
+          # Replace old TOC section in README.md between markers
+          awk '
+            BEGIN {skip=0}
+            /<!-- TOC-START -->/ {print; system("cat toc.md"); skip=1; next}
+            /<!-- TOC-END -->/ {skip=0}
+            skip==0 {print}
+          ' README.md > README.new.md
+
+          mv README.new.md README.md
+
+          # Commit and push changes
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "Update README TOC with PDF releases" || echo "No changes to commit"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
