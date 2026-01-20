@@ -30,7 +30,6 @@ jobs:
             texlive-latex-extra
 
       - name: Find newly added Markdown files
-        id: md
         run: |
           git diff --diff-filter=A --name-only HEAD~1 HEAD \
             | grep '\.md$' > new_md.txt || true
@@ -48,11 +47,12 @@ jobs:
 
       - name: Create releases (one per file)
         run: |
+          [ -s new_md.txt ] || exit 0
+
           while read file; do
             base=$(basename "$file" .md)
             pdf="pdfs/$base.pdf"
 
-            # Skip if release already exists
             if gh release view "$base" >/dev/null 2>&1; then
               echo "Release $base already exists, skipping"
               continue
@@ -63,4 +63,4 @@ jobs:
               --notes "PDF generated from \`$file\`"
           done < new_md.txt
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
