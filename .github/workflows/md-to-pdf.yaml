@@ -42,7 +42,12 @@ jobs:
           while read file; do
             [ -f "$file" ] || continue
             base=$(basename "$file" .md)
-            pandoc "$file" -o "pdfs/$base.pdf"
+            pandoc "$file" \
+              --pdf-engine=xelatex \
+              --template=templates/universal.tex \
+              --toc \
+              --highlight-style=tango \
+              -o "pdfs/$base.pdf"
           done < new_md.txt
 
       - name: Create releases (one per file)

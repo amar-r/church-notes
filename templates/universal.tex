@@ -1,0 +1,58 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Pagella}
+
+\usepackage{setspace}
+\setstretch{1.15}
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue
+}
+
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\leftmark}
+\rfoot{\thepage}
+
+\setcounter{secnumdepth}{3}
+
+\begin{document}
+
+$if(title)$
+\begin{center}
+{\LARGE\bfseries $title$}
+\end{center}
+\vspace{1em}
+$endif$
+
+$if(author)$
+\begin{center}
+$author$
+\end{center}
+$endif$
+
+$if(date)$
+\begin{center}
+$date$
+\end{center}
+$endif$
+
+$if(toc)$
+\tableofcontents
+\newpage
+$endif$
+
+$body$
+
+\end{document}
