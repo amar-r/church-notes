@@ -13,5 +13,8 @@ Drafts are produced with ChatGPT and formatted for clarity in Markdown. Please t
 ## Sermon PDFs
 
 <!-- TOC-START -->
-
+## Releases
+- [2026.01.18-Haven-Church-Nick-Mudrezow](https://github.com/amar-r/church-notes/releases/download/2026.01.18-Haven-Church-Nick-Mudrezow/2026.01.18-Haven-Church-Nick-Mudrezow.pdf)
+- [2026.01.11-Haven-Church-Nick-Mudrezow](https://github.com/amar-r/church-notes/releases/download/2026.01.11-Haven-Church-Nick-Mudrezow/2026.01.11-Haven-Church-Nick-Mudrezow.pdf)
+- [2025.12.07-Haven-Church-John-Scott](https://github.com/amar-r/church-notes/releases/download/2025.12.07-Haven-Church-John-Scott/2025.12.07-Haven-Church-John-Scott.pdf)
 <!-- TOC-END -->
