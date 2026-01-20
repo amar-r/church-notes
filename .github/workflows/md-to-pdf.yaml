@@ -1,0 +1,66 @@
+name: Markdown PDF Releases
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**/*.md"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Pandoc & LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            pandoc \
+            texlive-latex-base \
+            texlive-fonts-recommended \
+            texlive-latex-extra
+
+      - name: Find newly added Markdown files
+        id: md
+        run: |
+          git diff --diff-filter=A --name-only HEAD~1 HEAD \
+            | grep '\.md$' > new_md.txt || true
+
+          cat new_md.txt
+
+      - name: Convert Markdown files to PDFs
+        run: |
+          mkdir -p pdfs
+          while read file; do
+            [ -f "$file" ] || continue
+            base=$(basename "$file" .md)
+            pandoc "$file" -o "pdfs/$base.pdf"
+          done < new_md.txt
+
+      - name: Create releases (one per file)
+        run: |
+          while read file; do
+            base=$(basename "$file" .md)
+            pdf="pdfs/$base.pdf"
+
+            # Skip if release already exists
+            if gh release view "$base" >/dev/null 2>&1; then
+              echo "Release $base already exists, skipping"
+              continue
+            fi
+
+            gh release create "$base" "$pdf" \
+              --title "$base" \
+              --notes "PDF generated from \`$file\`"
+          done < new_md.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
